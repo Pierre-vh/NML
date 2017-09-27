@@ -60,7 +60,7 @@ void Easy::Parser::makeTree(Node *n)
 	if (!reporter->isOk())
 	{
 		std::cout << "WarningReporter Reported an error. Can't make the tree in an unhealthy environement." << std::endl;
-		std::cin.get();
+		return;
 	}
 	std::stack<Node*> parents;
 	std::stack<std::string> opentags; 
