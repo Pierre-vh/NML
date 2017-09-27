@@ -9,8 +9,8 @@ Contact me : pierre.vanhoutryve@gmail.com
 
 
 Example of code :
-
-<NML version="true">				
+'''
+<NML version="1.0">				
 	<project name="NMLTEST"/>					
 </NML>
 <OPDIV>	
@@ -27,10 +27,10 @@ Example of code :
 		[LEFT]
 		<CONST content=2/>
 		[RIGHT]
-		<CONST content=3/>		
+		<CONST content=null/>		
 	</OPMUL>
 </OPDIV>
-
+'''
 
 
 
