@@ -21,7 +21,7 @@
 
 #define AT_ADD(x,y,z) {x,{y,z}}
 
-// Macros utilisées pour éviter de surcharger certaines lignes et améliorer la visibilité.
+// Macros utilisÃ©es pour Ã©viter de surcharger certaines lignes et amÃ©liorer la visibilitÃ©.
 #define ACTIONTABLE std::map<std::pair<short,tokentype>,std::pair<action,short> > 
 #define AT_KEY std::pair<short,tokentype>
 #define AT_DATA std::pair<action,short>
@@ -76,10 +76,9 @@ namespace Easy
 			void parseEndTag();
 			void parseOrphanTag();
 			void parseAttr();
-			// The action table uses 
+			// The action table used
 			ACTIONTABLE action_table =
 			{
-				// Lors d'une opération de réduction, on ajoute à la liste reducedData la classe correspondante.
 				{ { 0,SQB_OPEN	  },{ SHIFT	,1 } },
 				{ { 0,LESS_THAN	  },{ SHIFT	,4 } },
 				{ { 1,id		  },{ SHIFT	,2 } },
@@ -93,7 +92,7 @@ namespace Easy
 				{ { 8,id		  },{ SHIFT ,12} },
 				{ { 9,GREATER_THAN},{ REDUCE,10} }, // parseOrphanTag
 				{ {12,EQUAL		  },{ SHIFT ,13} },
-				{ {13,data		  },{ REDUCE,14} }  // parseAttr	-> Cas spécial, ici on doit juste mettre les attributs non parsé dans une pile qui sera utilisé au prochain appel de parseStartTag ou parseOrphanTag
+				{ {13,data		  },{ REDUCE,14} }  // parseAttr	-> Cas spÃ©cial, ici on doit juste mettre les attributs non parsÃ© dans une pile qui sera utilisÃ© au prochain appel de parseStartTag ou parseOrphanTag
 			};
 
 			GTFN_TABLE gtfn_table =
