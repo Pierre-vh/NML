@@ -9,8 +9,7 @@ Contact me : pierre.vanhoutryve@gmail.com
 
 
 Example of code :
-'''
-
+```
 <NML version="1.0">				
 	<project name="NMLTEST"/>					
 </NML>
@@ -31,9 +30,7 @@ Example of code :
 		<CONST content=null/>		
 	</OPMUL>
 </OPDIV>
-
-'''
-
+```
 
 
 It's simple and clear, the [LEFT] and [RIGHT] tags are used to show if a node is on the left or right part. You can make your own "Node" class that uses other type of tags without any problems ! As long as your data can be stored in this format, you can use my interpreter ! It also has a fairly stable error detection system for the most common errors, although I can still run into bugs from time to time !
