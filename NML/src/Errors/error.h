@@ -6,7 +6,7 @@
 // Add error here
 
 #define BASE_ERROR(a,x,y) a->reportError(__FILE__,__LINE__,x,y) // Macro for quick & easy error reporting. Takes the instance of error as argument, the error code and a message.
-
+#define BASE_WARNING(a,x) a->reportWarning(x);
 namespace Easy
 {
 
@@ -21,7 +21,10 @@ namespace Easy
 		LEXING_ERROR_DELIMITOR,
 		LEXING_FAILED,
 		PARSING_ERROR,
-		CANT_OPEN_FILE
+		CANT_OPEN_FILE,
+		UNEXPECTED_TOKEN,
+		NML_CHILDSEARCH_ERROR,
+		DATA_GET_ERROR
 	}ERROR;
 
 	class error
@@ -38,22 +41,20 @@ namespace Easy
 			bool hasReportedWarnings() const;
 			bool isOk() const; // Checks if has error has been thrown or not.
 
+			struct {
+				bool Warning_Are_Errors = false;
+				bool muteWarnings = false;
+				bool muteErrors = false;
+			}options;
+
 			~error();
 			
 		private:
-			/*
-			struct {
-				ERROR errtype;
-				std::string errtype_str;
-				std::string err_desc;
-				std::string err_msg;
-			} lastError;*/
 			void triggerError();
 
 			bool errOcc = false;
 			bool warnOcc = false;
-			std::ostream *stream = &std::cout;
-			// Add errors Name & Description here.
+			std::ostream *stream = &std::cout; // std::cout is the default output.
 			std::map<ERROR, std::pair<std::string, std::string>> names =
 			{
 				{ ENUM_UNKNOWN_DATA_TYPE			,{ "ENUM_UNKNOWN_DATA_TYPE",			"The enum used to store the stored data's type in Data.h/.cpp was set to an unknown value. This is a bug in the Data class. Please report this with a code sample that reproduces the problem." } },
@@ -63,7 +64,10 @@ namespace Easy
 				{ LEXING_ERROR_DELIMITOR			,{ "LEXING_ERROR_DELIMITOR",			"A Char/String value was not closed properly, causing the Lexing process to be aborted." } },
 				{ LEXING_FAILED						,{ "LEXING_FAILED",						"The lexing process failed." }},
 				{ PARSING_ERROR						,{ "PARSING_ERROR",						"An error occured while parsing the file."}},
-				{ CANT_OPEN_FILE					,{ "CANT_OPEN_FILE",					"You tried to open a file, and it wasn't successful. Check your file's path and name."}}
+				{ CANT_OPEN_FILE					,{ "CANT_OPEN_FILE",					"You tried to open a file, and it wasn't successful. Check your file's path and name."}},
+				{ UNEXPECTED_TOKEN					,{ "UNEXPECTED_TOKEN",					"Details :"}},
+				{ NML_CHILDSEARCH_ERROR				,{ "NML_CHILDSEARCH_ERROR",				"An error occured when attempting to access a node."}},
+				{ DATA_GET_ERROR					,{ "DATA_GET_ERROR",					"Error while attempting to retrieve a value contained in a Easy::Data object."}}
 			};
 	};
 

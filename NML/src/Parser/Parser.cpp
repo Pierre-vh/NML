@@ -48,7 +48,9 @@ PARSEDITEMS_LIST Easy::Parser::parse(const std::list<token>& input)
 		}
 		else
 		{
-			std::cout << "Unexpected token for state(" << current_state << "): " << i->str << " of type <" << token::getTypeAsString(i->type) << "> at position (line :" << i->pos.line << ",column :" << i->pos.column <<") \nExpected : " << this->getExpEntriesForCurState(",") << std::endl;
+			std::stringstream ss;
+			ss<< "Unexpected token for state(" << current_state << "): " << i->str << " of type <" << token::getTypeAsString(i->type) << "> at position (line :" << i->pos.line << ",column :" << i->pos.column <<") \nExpected : " << this->getExpEntriesForCurState(",") << std::endl;
+			BASE_ERROR(reporter, Easy::UNEXPECTED_TOKEN, ss.str());
 			return PARSEDITEMS_LIST(); // stop the parsing here.
 		}
 	}
@@ -60,7 +62,7 @@ void Easy::Parser::makeTree(Node *n)
 	if (!reporter->isOk())
 	{
 		std::cout << "WarningReporter Reported an error. Can't make the tree in an unhealthy environement." << std::endl;
-		std::cin.get();
+		return;
 	}
 	std::stack<Node*> parents;
 	std::stack<std::string> opentags; 

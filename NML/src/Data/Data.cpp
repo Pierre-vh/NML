@@ -1,43 +1,45 @@
 #include "Data.h"
 
+using namespace Easy;
+
 // Constructors
-Easy::Data::Data(const int & ival)
+Data::Data(const int & ival)
 {
 	this->setData(ival);
 }
 
-Easy::Data::Data(const float & fval)
+Data::Data(const float & fval)
 {
 	this->setData(fval);
 }
 
-Easy::Data::Data(const char & cval)
+Data::Data(const char & cval)
 {
 	this->setData(cval);
 }
 
-Easy::Data::Data(const std::string & sval)
+Data::Data(const std::string & sval)
 {
 	this->setData(sval);
 }
 
-Easy::Data::Data(const bool & bval)
+Data::Data(const bool & bval)
 {
 	this->setData(bval);
 }
 
-Easy::Data::Data(const char str[])
+Data::Data(const char str[])
 {
 	this->setData(std::string(str));
 }
 
-Easy::Data::Data()
+Data::Data()
 {
 	this->makeNull();
 }
 
 // Data Setters
-void Easy::Data::setData(const int & ival)
+void Data::setData(const int & ival)
 {
 	cleanup();
 
@@ -45,7 +47,7 @@ void Easy::Data::setData(const int & ival)
 	cur = INTEGER;
 }
 
-void Easy::Data::setData(const float & fval)
+void Data::setData(const float & fval)
 {
 	cleanup();
 
@@ -53,7 +55,7 @@ void Easy::Data::setData(const float & fval)
 	cur = FLOAT;
 }
 
-void Easy::Data::setData(const char & cval)
+void Data::setData(const char & cval)
 {
 	cleanup();
 
@@ -61,7 +63,7 @@ void Easy::Data::setData(const char & cval)
 	cur = CHAR;
 }
 
-void Easy::Data::setData(const std::string & sval)
+void Data::setData(const std::string & sval)
 {
 	cleanup();
 
@@ -69,7 +71,7 @@ void Easy::Data::setData(const std::string & sval)
 	cur = STRING;
 }
 
-void Easy::Data::setData(const bool & bval)
+void Data::setData(const bool & bval)
 {
 	cleanup();
 
@@ -77,7 +79,7 @@ void Easy::Data::setData(const bool & bval)
 	cur = BOOLEAN;
 }
 
-void Easy::Data::makeNull()
+void Data::makeNull()
 {
 
 	cleanup();
@@ -85,7 +87,7 @@ void Easy::Data::makeNull()
 	cur = NULLDATA;
 }
 
-Easy::DataTypes Easy::Data::setDataFromString(const std::string & str)
+DataTypes Data::setDataFromString(const std::string & str)
 {
 	std::string strlow = str;
 	std::transform(strlow.begin(), strlow.end(), strlow.begin(), ::tolower);
@@ -134,14 +136,14 @@ Easy::DataTypes Easy::Data::setDataFromString(const std::string & str)
 	}
 	catch (std::exception e)
 	{
-		reporter->reportWarning("[!] Error while attempting to convert the value ." + str + ". (lowercase: ." + strlow + ".to a known datatype.Defaulted to string");
+		BASE_WARNING(reporter, "[!] Error while attempting to convert the value ." + str + ". (lowercase: ." + strlow + ".to a known datatype.Defaulted to string");
 		this->setData(str);
 		return STRING;
 	}
 
 }
 
-std::string Easy::Data::asString() const
+std::string Data::asString() const
 {	
 	std::stringstream s;
 	switch (cur)
@@ -161,65 +163,65 @@ std::string Easy::Data::asString() const
 		case NULLDATA:
 			return NULL_STRING;
 		default:
-			reporter->reportError(__FILE__, __LINE__, ERROR::ENUM_UNKNOWN_DATA_TYPE);
-
+			BASE_ERROR(reporter, Easy::ENUM_UNKNOWN_DATA_TYPE, "");
+			return "";
 	}
 }
 
 // Getters
 
 template<>
-int Easy::Data::getData<int>() const
+int Data::getData<int>() const
 {
 	if (cur == INTEGER)
 		return data_.data_int;
 
-	reporter->reportError("Attempted to get<int() when the Data's type was not a int");
+	badGetErr("Attempted to get<int() when the Data's type was not a int");
 	return 0;
 }
 
 
 template<>
-float Easy::Data::getData<float>() const
+float Data::getData<float>() const
 {
 	if (cur == FLOAT)
 		return data_.data_float;
 
-	reporter->reportError("Attempted to get<char>() when the Data's type was not a char");
+	badGetErr("Attempted to get<char>() when the Data's type was not a char");
 	return 0;
 }
 
 template<>
-char Easy::Data::getData<char>() const
+char Data::getData<char>() const
 {
 	if (cur == CHAR)
 		return data_.data_char;
 
-	reporter->reportError("Attempted to get<char>() when the Data's type was not a char");
+	badGetErr("Attempted to get<char>() when the Data's type was not a char");
 	return 0;
 }
 
 template<>
-std::string Easy::Data::getData<std::string>() const
+std::string Data::getData<std::string>() const
 {
 	if (cur == STRING)
 		return data_.data_string;
 
-	reporter->reportError("Attempted to get<std::string>() when the Data's type was not a std::string");
+	badGetErr("Attempted to get<std::string>() when the Data's type was not a std::string");
 	return 0;
 }
 
 template<>
-bool Easy::Data::getData<bool>() const
+bool Data::getData<bool>() const
 {
 	if (cur == BOOLEAN)
 		return data_.data_boolean;
 
-	reporter->reportError("Attempted to get<bool>() when the Data's type was not a boolean.");
+	badGetErr("Attempted to get<bool>() when the Data's type was not a boolean.");
 	return 0;
 }
 
-std::string Easy::Data::asFormattedString() const
+std::string Data::asFormattedString() const
 {
 	std::string nstr = this->asString();
 	if (cur == STRING)
@@ -230,31 +232,24 @@ std::string Easy::Data::asFormattedString() const
 }
 
 // ISNULL
-bool Easy::Data::isNull() const
+bool Data::isNull() const
 {
 	return (cur == NULLDATA);
 }
 
 // Utility Functions
-bool Easy::Data::isEmpty() const
+bool Data::isEmpty() const
 {
 	return (cur == EMPTY);
 }
 
-Easy::DataTypes Easy::Data::getType() const
+DataTypes Data::getType() const
 {
 	return cur;
 }
 
-std::string Easy::Data::getTypeAsStr() const
+std::string Data::getTypeAsStr() const
 {
-	/*		INTEGER,
-		FLOAT,
-		CHAR,
-		STRING,
-		BOOLEAN, 
-		NULLDATA, // Null
-		EMPTY*/
 	switch (cur)
 	{
 		case INTEGER:
@@ -275,7 +270,7 @@ std::string Easy::Data::getTypeAsStr() const
 	return std::string();
 }
 
-Easy::Data& Easy::Data::operator=(const Easy::Data & cop)
+Data& Data::operator=(const Data & cop)
 {
 	switch (cop.getType())
 	{
@@ -299,33 +294,38 @@ Easy::Data& Easy::Data::operator=(const Easy::Data & cop)
 			break;
 		case EMPTY:
 			this->makeNull();
-			reporter->reportWarning("The right term of the assignement operator used a Data instance that was empty. Made the left instance null as a result.");
+			BASE_WARNING(reporter,"The right term of the assignement operator used a Data instance that was empty. Made the left instance null as a result.");
 			break;
 		default:
-			reporter->reportError(Easy::GENERIC_ERROR, "operator=() defaulted.");
+			BASE_ERROR(reporter,Easy::GENERIC_ERROR, "operator=() defaulted.");
 			break;
 	}
 	return *this;
 }
 
-bool Easy::Data::operator==(const Data & b)
+bool Data::operator==(const Data & b)
 {
 	return (this->getType() == b.getType()) && (this->asString() == b.asString());
 }
 
-bool Easy::Data::operator!=(const Data & b)
+bool Data::operator!=(const Data & b)
 {
 	return !(*this == b);
 }
 
 
 // Destructor
-Easy::Data::~Data()
+Data::~Data()
 {
 
 }
 
-void Easy::Data::cleanup()
+void Data::badGetErr(const std::string & str) const
+{
+	BASE_ERROR(reporter, DATA_GET_ERROR, str);
+}
+
+void Data::cleanup()
 {
 	data_.data_boolean = false;
 	data_.data_char = ' ';

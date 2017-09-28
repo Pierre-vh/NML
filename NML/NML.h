@@ -11,6 +11,10 @@
 using namespace Easy;
 
 #define REPORT if(!reporter->isOk()) std::cout << "ERROR!!!!" << __LINE__ << std::endl;
+#define RETURN_IF_ERROR if(!reporter->isOk()) return nullptr;
+
+// This is a 'wrapper' class that loads 'standard' NML files. You'll have to make your own if you decide to implement another syntax/tree structure. 
+// You'll also need to make another Node class, inherited from the Node class (see the Parser folder for that)
 
 class NML
 {

@@ -23,6 +23,8 @@
 #define BOOLSTR_FALSE "false"
 #define NULL_STRING "null" // used when asString is used on a null data.
 
+
+// By default, this class throws error if you attempt to use getData<type>() on a different data type. It can be changed.
 namespace Easy
 { 
 	union DataUnion
@@ -106,6 +108,8 @@ namespace Easy
 
 			~Data();
 		private:
+
+			void badGetErr(const std::string &str) const;
 
 			void cleanup(); // Reset all data to 0 & cur to EMPTY
 

@@ -26,7 +26,10 @@ void Lexer::flush()
 	if (curtok != "") // only flush if curtok is not empty.
 	{
 		info npos = curpos;
-		npos.column -= curtok.size(); // We need to count from the beginning of the word !
+		npos.column -=  curtok.size(); // We need to count from the beginning of the word
+		// Sometimes we end up with a negative column. We need to check that it did not happen.
+		if (npos.column < 0)
+			npos.column = 0;
 		tokens.push_back(token(curtok,npos));
 		curtok = "";
 	}
@@ -86,6 +89,8 @@ bool Lexer::eat(size_t pos)
 			{ curpos.column = 0; curpos.line += 1; }
 		else 
 			curpos.column += 1;
+
+
 	}
 	lastpos = pos;
 

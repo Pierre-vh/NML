@@ -49,6 +49,9 @@ NMLNode * NML::parseString(const std::string & str)
 	Lexer lex;
 	std::list<Easy::token> toks;
 	toks = lex.lex(str);
+
+	RETURN_IF_ERROR
+
 	if (params.describeProcess)
 		std::cout << "Number of token found : " << toks.size() << ", The original string was made of " << str.size() << " characters." << std::endl;
 	if (params.showTokens)
@@ -69,6 +72,9 @@ NMLNode * NML::parseString(const std::string & str)
 		std::cout << std::endl << "Parsing..." << std::endl;
 
 	PARSEDITEMS_LIST parsed = p.parse(toks); // PARSING!
+
+	RETURN_IF_ERROR
+
 	if (params.describeProcess)
 		if (!parsed.empty())
 		{
@@ -89,12 +95,16 @@ NMLNode * NML::parseString(const std::string & str)
 					tab.pop_back();
 			}
 		}
-	if (!reporter->isOk())
-		std::cout << __LINE__ << std::endl;
 	if (params.describeProcess)
 		showTitle("BUILDING THE AST..");
+
+	RETURN_IF_ERROR
+
 	NMLNode *n = new NMLNode(ROOTNODE);
 	p.makeTree(n);
+
+	RETURN_IF_ERROR
+
 	return n;
 }
 

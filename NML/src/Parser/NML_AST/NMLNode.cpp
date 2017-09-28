@@ -56,7 +56,7 @@ NMLNode * NMLNode::getChild(const dir & d)
 		if(right)
 			return right.get();
 	else
-		BASE_ERROR(reporter, Easy::GENERIC_ERROR, "Unknown direction for getChild()");
+		throwWarning("Unknown direction for getChild()");
 		return this;
 }
 
@@ -69,7 +69,8 @@ NMLNode * NMLNode::getChild(const std::string & npos) // Get childs by name
 		if ((*x)->getName() == npos)
 			return (*x).get();
 	}
-	BASE_ERROR(reporter, Easy::GENERIC_ERROR, "Tried to find child \"" + npos + "\". It does not exists.");
+	throwWarning("Tried to find child \"" + npos + "\". It does not exists.");
+	return nullptr;
 }
 
 NMLNode * NMLNode::getChild(const int & s)
@@ -80,7 +81,7 @@ NMLNode * NMLNode::getChild(const int & s)
 	{
 		std::stringstream ss;
 		ss << "Attempted to access a child that does not exists. (Attempted to access child no " << s << " when the vector size was " << childs.size() << " on node " << name << ")" << std::endl;
-		BASE_ERROR(reporter, Easy::GENERIC_ERROR, ss.str());
+		throwWarning(ss.str());
 		return this;
 	}
 	return childs[s].get();
@@ -102,10 +103,8 @@ std::vector<NMLNode*> NMLNode::searchChild(const std::string & n)
 	else if (right->getName() == n)
 		results.push_back(right.get());
 
-	if(results.size() == 0)
-		BASE_ERROR(reporter,Easy::GENERIC_ERROR, "Node " + n + " does not exists.");
 	if (results.size() == 0)
-		reporter->reportWarning("No node with id \"" + n + "\" found.");
+		throwWarning("No node called " + n + " found.");
 	return results;
 }
 
@@ -202,6 +201,17 @@ void NMLNode::presentYourself()
 		(*i)->presentYourself();
 	}
 	
+}
+
+Easy::NMLNode::operator bool()
+{
+	return badFlag;
+}
+
+void Easy::NMLNode::throwWarning(const std::string & s)
+{
+	BASE_WARNING(reporter, s);
+	badFlag = true;
 }
 
 std::string NMLNode::tabsForInt(const int & i)

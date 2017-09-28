@@ -14,7 +14,7 @@
 
 #define ROOTNODE "root"
 
-#define RETURN_IF_ERROR if(!reporter->isOk()){ std::cout << "Won't do it!" << __FILE__ << "@" << __LINE__ << std::endl; return this;}
+#define RETURN_IF_ERROR if(!reporter->isOk()){ return this;}
 
 enum dir { LEFT , RIGHT };
 
@@ -48,8 +48,11 @@ namespace Easy
 
 		std::string compileToStr(const int &tab = -1); // This will compile the ast
 		void presentYourself();
-	private:
 
+		operator bool(); // This check the 'health' of the node. For instance, if you performed a search and no result were found, this will return false.
+	private:
+		void throwWarning(const std::string &s);
+		bool badFlag = false;
 		// The NML Default AST suppors : An array of childs without tags and a left/right child.
 		std::string name = "";
 		std::map<std::string, Easy::Data> attrs; // Attributes are converted to C++ types, stored in Easy::Data.
