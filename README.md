@@ -39,9 +39,10 @@ Once your tree has been generated, you can navigate any node, add attributes and
 
 Algorithms used :
 
-Recursive Descent Lexer
+Recursive Descent Lexer.
+
 The parser is sort-of homemade. It uses a DFA with a LR-Like parsing tables, but goes from top to bottom. So I guess we can call it a LL(1) parser? It is not the only algorithm used in the parser, because this will only 'reduce' tokens, another algorithm (makeTree) exists to build the tree from your Node class. (This one is home made)
 
 Goal of this project :
 
-Learn more about parsing techniques and compiler theory in general.
+Learn more about parsing techniques and compilation theory in general.
