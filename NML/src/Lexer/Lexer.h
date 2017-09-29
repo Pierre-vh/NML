@@ -33,7 +33,8 @@ namespace Easy
 		EQUAL,			// =
 		id,				// id
 		data,			// Any data (numbers) and some reserved ids : true,false,null
-		err // used as a default when errors occured. Should never be used in 
+		err,			// used as a default when errors occured. Should never be used in 
+		unknown
 	};
 	namespace Token		// Using a namespace here, because it was already defined before and we need another, more specific definition here for the token
 	{
@@ -71,25 +72,27 @@ namespace Easy
 		{
 			switch (type)
 			{
-			case LESS_THAN:
-				return "LESS_THAN";
-			case GREATER_THAN:
-				return "GREATER_THAN Symbol";
-			case SQB_OPEN:
-				return "SQUARE_BRACKET_OPEN Symbol";
-			case SQB_CLOSE:
-				return "SQUARE_BRACKET_CLOSE Symbol";
-			case EQUAL:
-				return "EQUAL Symbol";
-			case SLASH:
-				return "SLASH Symbol";
-			case id:
-				return "id";
-			case data:
-				return "data";
-			default:
-				BASE_ERROR(reporter, Easy::GENERIC_ERROR, "Defaulted.");
-				return "";
+				case LESS_THAN:
+					return "LESS_THAN";
+				case GREATER_THAN:
+					return "GREATER_THAN Symbol";
+				case SQB_OPEN:
+					return "SQUARE_BRACKET_OPEN Symbol";
+				case SQB_CLOSE:
+					return "SQUARE_BRACKET_CLOSE Symbol";
+				case EQUAL:
+					return "EQUAL Symbol";
+				case SLASH:
+					return "SLASH Symbol";
+				case id:
+					return "id";
+				case data:
+					return "data";
+				case unknown:
+					return "unknown token";
+				default:
+					BASE_ERROR(reporter, Easy::GENERIC_ERROR, "Defaulted.");
+					return "";
 			}
 		}
 		static std::string getTypeFriendlyRepresentation(const tokentype &type) 
@@ -126,22 +129,23 @@ namespace Easy
 			{
 				switch (str[0])
 				{
-				case '<':
-					return LESS_THAN;
-				case '>':
-					return GREATER_THAN;
-				case '[':
-					return SQB_OPEN;
-				case ']':
-					return SQB_CLOSE;
-				case '/':
-					return SLASH;
-				case '=':
-					return EQUAL;
-				default:
-					if (isdigit(str[0]))
-						return data;
-					break;
+					case '<':
+						return LESS_THAN;
+					case '>':
+						return GREATER_THAN;
+					case '[':
+						return SQB_OPEN;
+					case ']':
+						return SQB_CLOSE;
+					case '/':
+						return SLASH;
+					case '=':
+						return EQUAL;
+					default:
+						if (isdigit(str[0]))
+							return data;
+						return unknown;
+						break;
 				}
 			}
 			else

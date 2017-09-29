@@ -47,7 +47,7 @@ Node* NMLNode::makeChild(const std::string &tag, const std::string &name, std::m
 
 NMLNode * NMLNode::getChild(const dir & d)
 {
-	RETURN_IF_ERROR
+	NML_RETURN_IF_ERROR
 
 	if (d == LEFT)
 		if (left)
@@ -62,7 +62,7 @@ NMLNode * NMLNode::getChild(const dir & d)
 
 NMLNode * NMLNode::getChild(const std::string & npos) // Get childs by name
 {
-	RETURN_IF_ERROR
+	NML_RETURN_IF_ERROR
 
 	for (auto x = childs.begin(); x != childs.end(); x++)
 	{
@@ -73,9 +73,9 @@ NMLNode * NMLNode::getChild(const std::string & npos) // Get childs by name
 	return nullptr;
 }
 
-NMLNode * NMLNode::getChild(const int & s)
+NMLNode * NMLNode::getChild(const unsigned int & s)
 {
-	RETURN_IF_ERROR
+	NML_RETURN_IF_ERROR
 
 	if (childs.size() <= s)
 	{

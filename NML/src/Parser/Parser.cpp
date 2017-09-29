@@ -49,7 +49,7 @@ PARSEDITEMS_LIST Easy::Parser::parse(const std::list<token>& input)
 		else
 		{
 			std::stringstream ss;
-			ss<< "Unexpected token for state(" << current_state << "): " << i->str << " of type <" << token::getTypeAsString(i->type) << "> at position (line :" << i->pos.line << ",column :" << i->pos.column <<") \nExpected : " << this->getExpEntriesForCurState(",") << std::endl;
+			ss<< "Unexpected token [state(" << current_state << ")]: " << i->str << " of type <" << token::getTypeAsString(i->type) << "> (line :" << i->pos.line /*<< ",column :" << i->pos.column*/ <<") \nExpected : " << this->getExpEntriesForCurState(",") << std::endl;
 			BASE_ERROR(reporter, Easy::UNEXPECTED_TOKEN, ss.str());
 			return PARSEDITEMS_LIST(); // stop the parsing here.
 		}
@@ -92,7 +92,7 @@ void Easy::Parser::makeTree(Node *n)
 					continue;
 				}
 				else
-					BASE_ERROR(reporter, Easy::PARSING_ERROR, "Attempted to close the tag " + (*close).getName() + " when it was not the latest tag opened. (Whenever you open a block, it needs to be closed first before closing other blocks.)");
+					BASE_ERROR(reporter, Easy::PARSING_ERROR, "Attempted to close the tag " + (*close).getName() + " when it was not the latest tag opened. (Whenever you open a block, it needs to be closed first before closing other blocks.)\n Last tag opened :" + opentags.top());
 
 			}
 			else

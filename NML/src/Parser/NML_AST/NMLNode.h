@@ -14,7 +14,7 @@
 
 #define ROOTNODE "root"
 
-#define RETURN_IF_ERROR if(!reporter->isOk()){ return this;}
+#define NML_RETURN_IF_ERROR if(!reporter->isOk()){ return this;}
 
 enum dir { LEFT , RIGHT };
 
@@ -43,7 +43,7 @@ namespace Easy
 
 		NMLNode* getChild(const dir &d);
 		NMLNode* getChild(const std::string & npos); // Returns the first child with the name specified
-		NMLNode* getChild(const int &s);
+		NMLNode* getChild(const unsigned int &s);
 
 
 		std::string compileToStr(const int &tab = -1); // This will compile the ast
