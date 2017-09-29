@@ -117,7 +117,18 @@ DataTypes Data::setDataFromString(const std::string & str)
 			}
 			else if (str.front() == '\'' && str.back() == '\'')
 			{
-				this->setData((char)str[1]);
+				if (str.size() > 3)
+				{
+					BASE_WARNING(reporter, "There was more than one character inside a char declaration, only the first character after the opening quote was used. Concerned declaration : " + str)
+					this->setData((char)str[1]);
+				}
+				else if (str.size() < 3)
+				{
+					BASE_WARNING(reporter, "A char declaration was completly empty.The value was set to a \"space\" char : ' '");
+					this->setData(char(0));
+				}
+				else // Normal case. 
+					this->setData((char)str[1]);
 				return CHAR;
 			}
 			// This is where it gets lazy !
@@ -127,10 +138,10 @@ DataTypes Data::setDataFromString(const std::string & str)
 				this->setData(std::stof(str));
 				return FLOAT;
 			}
-			else // it's an int then
+			else // it's an int the
 			{
 				this->setData(std::stoi(str));
-				return FLOAT;
+				return INTEGER;
 			}
 		}
 	}
@@ -312,7 +323,6 @@ bool Data::operator!=(const Data & b)
 {
 	return !(*this == b);
 }
-
 
 // Destructor
 Data::~Data()

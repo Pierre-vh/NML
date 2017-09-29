@@ -7,6 +7,7 @@
 
 #define BASE_ERROR(a,x,y) a->reportError(__FILE__,__LINE__,x,y) // Macro for quick & easy error reporting. Takes the instance of error as argument, the error code and a message.
 #define BASE_WARNING(a,x) a->reportWarning(x);
+
 namespace Easy
 {
 
@@ -54,8 +55,7 @@ namespace Easy
 		private:
 			void triggerError();
 
-			bool errOcc = false;
-			bool warnOcc = false;
+			bool errOcc = false,warnOcc = false;
 			std::ostream *stream = &std::cout; // std::cout is the default output.
 			std::map<ERROR, std::pair<std::string, std::string>> names =
 			{

@@ -51,7 +51,7 @@ void Lexer::manageDelimiters(const char & c)
 	if (c == cdel)
 		inChar = !inChar;
 	else if (c == sdel)
-		inStr != !inStr;
+		inStr = !inStr;
 }
 
 
@@ -76,27 +76,52 @@ bool Lexer::eat(size_t pos)
 	// isspace
 	bool space = std::isspace(c,loc);
 	// If we're inside a char or a string, just blindly add to the curtok and go on.
-	if (inChar || inStr)
+	/////////
+	// CHAR AND STR DELIMITERS
+	////////
+	if (isDelimiter(c)) // The first part checks if c is a delimiter, the second partchecks for an espace character situation.
+	{
+		if (curtok != "" && !(inStr || inChar)) // It is treated as a separator, so do the normal procedure before going further.
+		{
+			flush();
+			return eat(pos);
+		}
+		else if ((data[pos - 1] == '\\')) // the character is escaped.
+		{
+			if (curtok.back() == '\\') curtok.pop_back(); // We don't need the inverted slash in the string as it's an escaped character.
+			curtok += c;
+			return eat(pos + 1);
+		}
+		else if (c == '\'' && inStr || c == '"' && inChar) // If the delimiter doesn't concern the current opened tag, we shouldn't worry about it.
+		{
+			curtok += c;
+			return eat(pos + 1);
+		}
+		else if (inStr || inChar) // If we're already in a str/char, it means that we need to close it/
+		{
+			curtok += c;
+			manageDelimiters(c);
+			flush();
+			return eat(pos + 1);
+		}
+		else // Lastly, by deduction, it means that we're opening a char/string.
+		{
+			curtok += c;
+			manageDelimiters(c);
+			return eat(pos + 1);
+		}
+	}
+	else if ((inChar || inStr))
 	{
 		curtok += c;
 		return eat(pos+1);
 	}
+	/////////
+	// SEPARATORS
+	////////
 	else
 	{
-		if (isDelimiter(c) && (data[pos - 1] != '\\')) // The first part checks if c is a delimiter, the second partchecks for an espace character situation.
-		{
-			if (curtok != "" && (inStr || inChar)) // It is treated as a separator, so do the normal procedure.
-			{
-				flush();
-				return eat(pos);
-			}
-			manageDelimiters(c);
-
-			curtok += c;
-			if (inStr || inChar) { flush(); }
-			return eat(pos + 1);
-		}
-		else if (isSep(c) || space)
+		if (isSep(c) || space)
 		{
 			if (curtok == "") // The current token is empty : flush the separator individually
 			{

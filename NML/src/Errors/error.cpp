@@ -23,7 +23,7 @@ void Easy::error::reportError(const char * file, const int & line, const ERROR &
 	if (names.find(err) == names.end())
 		*stream << "[ERROR][FILE:" << file << " LINE:" << line << "]" << s.c_str() << std::endl;
 
-	if (!options.muteErrors);
+	if (!options.muteErrors)
 		*stream << "[ERROR][FILE:" << file << " LINE:" << line << "]\n[" << names[err].first.c_str() << "][" << names[err].second.c_str() << "]\n" << s.c_str() << std::endl;
 }
 
@@ -33,7 +33,7 @@ void Easy::error::reportError(const ERROR & err, const std::string & s)
 	if (names.find(err) == names.end())
 		*stream << "[ERROR]" << s.c_str() << std::endl;
 
-	if (!options.muteErrors);
+	if (!options.muteErrors)
 		*stream << "[ERROR]\n[" << names[err].first.c_str() << "][" << names[err].second.c_str() << "]\n" << s.c_str() << std::endl;
 }
 

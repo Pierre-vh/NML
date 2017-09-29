@@ -32,8 +32,6 @@ namespace Easy
 		// This Union holds all the possible data types.
 		// Reminder : Unions are only as big as their largest data member, and share the same memory location. 
 		// Reading from the non-active data member (the most recently written) is an undefined behaviour. This is why an enum is used to keep track of which member is used.
-		// Supported Data Types : INTEGER FLOAT CHAR STRING BOOL NULL
-		// Default values : 0, 0, '', "", false, null
 		// When nothing is given to the Data class for initialization, the default value is null.
 		int data_int;
 		float data_float;
@@ -105,7 +103,6 @@ namespace Easy
 			bool operator==(const Data &b);
 			bool operator!=(const Data &b);
 
-
 			~Data();
 		private:
 
@@ -116,7 +113,4 @@ namespace Easy
 			DataTypes cur;
 			DataUnion data_;
 	};
-
-
-
 }

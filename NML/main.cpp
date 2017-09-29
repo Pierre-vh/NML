@@ -5,7 +5,9 @@ int main(int argc, const char * argv[])
 {
 	// NML class is a class used to parse NML files. You can re-use a lot of its code to build your own class !
 	NML n; // NML Parsing "Assistant"
-	//n.params.describeProcess = true;
+	n.params.describeProcess = true;
+	n.params.showTokens = true;
+	n.params.showParsingTable = true;
 	NMLNode *source = n.parseFile("C:\\Users\\pierre.vanhoutryve\\OneDrive\\Projets Programmation\\Projets\\DataContainer\\Debug\\progfile\\basic.txt");
 	if (reporter->isOk()) // Parsing success, we can proceed.
 	{
