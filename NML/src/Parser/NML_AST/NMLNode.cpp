@@ -82,7 +82,8 @@ NMLNode * NMLNode::getChild(const unsigned int & s)
 	if (childs.size() <= s)
 	{
 		std::stringstream ss;
-		ss << "Attempted to access a child that does not exists. (Attempted to access child no " << s << " when the vector size was " << childs.size() << " on node " << name << ")" << std::endl;
+		ss << "Attempted to access a child that does not exists. (Attempted to access child no " << s;
+		ss << " when the vector size was " << childs.size() << " on node " << name << ")" << std::endl;
 		throwWarning(ss.str());
 		return this;
 	}
@@ -143,7 +144,7 @@ std::string NMLNode::compileToStr(const int & tab)
 {
 	if (!reporter->isOk()) // If there was a failure somewhere, it's too risky to try and access the (probably) incomplete tree.
 	{
-		reporter->reportWarning("[IMPORTANT] The reporter reported an error somewhere. Can't generate the tree in a unhealthy environment");
+		reporter->reportWarning("[IMPORTANT] An error has been reported earlier. Can't compile the tree in a unhealthy environment");
 	}
 	std::stringstream ss;
 	if (name != ROOTNODE)

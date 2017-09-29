@@ -6,7 +6,6 @@ Parser::Parser()
 {
 }
 
-
 Parser::~Parser()
 {
 }
@@ -49,7 +48,9 @@ PARSEDITEMS_LIST Easy::Parser::parse(const std::list<token>& input)
 		else
 		{
 			std::stringstream ss;
-			ss<< "Unexpected token [state(" << current_state << ")]: " << i->str << " of type <" << token::getTypeAsString(i->type) << "> (line :" << i->pos.line /*<< ",column :" << i->pos.column*/ <<") \nExpected : " << this->getExpEntriesForCurState(",") << std::endl;
+			ss << "Unexpected token [state(" << current_state << ")]: " << i->str << " of type <" << token::getTypeAsString(i->type) << ">";
+			ss << "(line :" << i->pos.line /*<< ",column :" << i->pos.column*/ << ")" << std::endl;
+			ss << "Expected: " << this->getExpEntriesForCurState(", ") << std::endl;
 			BASE_ERROR(reporter, Easy::UNEXPECTED_TOKEN, ss.str());
 			return PARSEDITEMS_LIST(); // stop the parsing here.
 		}
@@ -61,7 +62,7 @@ void Easy::Parser::makeTree(Node *n)
 {
 	if (!reporter->isOk())
 	{
-		std::cout << "WarningReporter Reported an error earlier. Can't create the tree in an unhealthy environement." << std::endl;
+		reporter->reportWarning("[IMPORTANT] An error has been reported earlier. Can't build the tree in an unhealthy environement.");
 		return;
 	}
 	std::stack<Node*> parents;
@@ -69,17 +70,20 @@ void Easy::Parser::makeTree(Node *n)
 	parents.push(n); // N is the parent of everything here.
 	for (auto i = output.begin(); i != output.end(); i++)
 	{
-		if (auto starttag = std::dynamic_pointer_cast<StartTag>(*i)) // if *i is a starttag
+		if (auto st = std::dynamic_pointer_cast<StartTag>(*i)) // if *i is a starttag
 		{
-			opentags.push((*starttag).getName()); // Open it !
-			parents.push(parents.top()->makeChild((*starttag).getTag(), (*starttag).getName(), (*starttag).getAttrs(),false));
-			// Simple explanation : makes a node using parents.top() as a parent and pushes it at the top of the stack to become the new parent of everything in it
+			opentags.push((*st).getName()); // Open it !
+			auto newnode = parents.top()->makeChild((*st).getTag(), (*st).getName(), (*st).getAttrs(), false);
+			parents.push(newnode);
+			// Simple explanation : makes a node using parents.top() as a parent and pushes it at the top of the stack 
+			// So it becomes the new parent of everything that's contained inside the block.
 			continue;
 		}
-		else if (auto orphan = std::dynamic_pointer_cast<OrphanTag>(*i))
+		else if (auto orp = std::dynamic_pointer_cast<OrphanTag>(*i))
 		{
-			parents.top()->makeChild((*orphan).getTag(), (*orphan).getName(), (*orphan).getAttrs(),true);
-			// Exact same as the one above, except that we don't push it at the top of the stack (an orphan node doesn't have child) + we don't add it to opentags for the same reasons.
+			parents.top()->makeChild((*orp).getTag(), (*orp).getName(), (*orp).getAttrs(),true);
+			// Exact same as the one above, except that we don't push it at the top of the stack 
+			// (an orphan node doesn't have children + we don't add it to opentags for the same reason)
 		}
 		else if (auto close = std::dynamic_pointer_cast<EndTag>(*i))
 		{
@@ -87,13 +91,15 @@ void Easy::Parser::makeTree(Node *n)
 			{
 				if ((*close).getName() == opentags.top()) // That should always be the case
 				{
-					opentags.pop();
-					parents.pop();
+					opentags.pop();	parents.pop();
 					continue;
 				}
 				else
-					BASE_ERROR(reporter, Easy::PARSING_ERROR, "Attempted to close the tag " + (*close).getName() + " when it was not the latest tag opened. (Whenever you open a block, it needs to be closed first before closing other blocks.)\n Last tag opened :" + opentags.top());
-
+				{
+					std::string str = "Attempted to close the tag " + (*close).getName() + " when it was not the latest tag opened.\n";
+					str += "Whenever you open a block, it needs to be closed first before closing other blocks.\n Last tag opened :" + opentags.top();
+					BASE_ERROR(reporter, Easy::PARSING_ERROR,str);
+				}
 			}
 			else
 				BASE_ERROR(reporter, Easy::PARSING_ERROR, "Attempted to close a tag when there was no tags open.");
