@@ -37,6 +37,8 @@ namespace Easy
 			void reportError(const ERROR &err = GENERIC_ERROR, const std::string &s = "");
 
 			void reportWarning(const std::string &w);
+			
+			void sayInformation(const std::string &str);
 
 			bool hasReportedWarnings() const;
 			bool isOk() const; // Checks if has error has been thrown or not.

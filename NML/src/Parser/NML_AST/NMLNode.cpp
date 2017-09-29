@@ -22,6 +22,8 @@ NMLNode::~NMLNode()
 
 Node* NMLNode::makeChild(const std::string &tag, const std::string &name, std::map<std::string, std::string> attrs, bool orphan)
 {
+	NML_RETURN_IF_ERROR
+
 	std::string lctag = tag;
 	std::transform(lctag.begin(), lctag.end(), lctag.begin(), ::tolower); // puts Tag to lowercase to be case-insensitive
 	if (lctag == "left")
@@ -37,7 +39,7 @@ Node* NMLNode::makeChild(const std::string &tag, const std::string &name, std::m
 	else
 	{
 		if (lctag != "")
-			reporter->reportWarning("[NMLNode] Encountered an unsupported tag, it was ignored."); // If the tag is unsupported, we simply ignore it.
+			reporter->sayInformation("[NMLNode] Encountered an unsupported tag, it was ignored."); // If the tag is unsupported, we simply ignore it.
 
 		childs.push_back(std::make_unique<NMLNode>(name, attrs,orphan));
 		return childs.back().get();
@@ -139,12 +141,15 @@ void NMLNode::setAttr(const std::string & str, const Easy::Data & d)
 
 std::string NMLNode::compileToStr(const int & tab)
 {
-	if(!reporter->isOk()) // If there was a failure somewhere, it's too risky to try and access the (probably) incomplete tree.
-		return "The reporter reported an error somewhere. Can't generate the tree in a unhealthy environment"; 
+	if (!reporter->isOk()) // If there was a failure somewhere, it's too risky to try and access the (probably) incomplete tree.
+	{
+		reporter->reportWarning("[IMPORTANT] The reporter reported an error somewhere. Can't generate the tree in a unhealthy environment");
+	}
 	std::stringstream ss;
 	if (name != ROOTNODE)
 	{
-		ss << tabsForInt(tab) << "<" << name << (attrs.size() != 0 ? " " : "");
+		////// Opening the current tag	//////
+		ss << tabsForInt(tab) << "<" << name << (attrs.size() != 0 ? " " : ""); 
 		for (auto x = attrs.begin(); x != attrs.end(); x++)
 			ss << x->first << "=" << x->second.asFormattedString() << ((std::next(x) == attrs.end()) ? "" : " ");;
 		// The last bit might be confusing : we only insert the separator if that's not the last element of the attributes
@@ -153,25 +158,23 @@ std::string NMLNode::compileToStr(const int & tab)
 		else
 		{
 			ss << ">" << std::endl;
+		////// Content of the tag	//////
 			if (left)
 				ss << tabsForInt(tab+1) << "[LEFT]" << std::endl << left->compileToStr(tab + 1);
 			if (right)
 				ss << tabsForInt(tab+1) << "[RIGHT]" << std::endl << right->compileToStr(tab + 1);
 			if (childs.size() != 0)
-			{
 				for (auto k = childs.begin(); k != childs.end(); k++)
-				{
 					ss << (*k)->compileToStr(tab+1);
-				}
-			}
-			ss << tabsForInt(tab) << "</" << name << ">" << std::endl;
+		////// Opening the current tag	//////
+			ss << tabsForInt(tab) << "</" << name << ">" << std::endl; 
 		}
 	}
 	else // if this is the root node, we should only compile childs
 	{
 		for (auto k = childs.begin(); k != childs.end(); k++)
 		{
-			ss << (*k)->compileToStr(tab+1) << std::endl;
+			ss << (*k)->compileToStr(tab+1);
 		}
 	}
 

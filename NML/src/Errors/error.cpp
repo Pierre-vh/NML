@@ -46,6 +46,11 @@ void Easy::error::reportWarning(const std::string & w)
 		*stream << "[WARNING]" << w.c_str() << std::endl;
 }
 
+void Easy::error::sayInformation(const std::string & str)
+{
+	(*stream) << str.c_str();
+}
+
 bool Easy::error::hasReportedWarnings() const
 {
 	return warnOcc;

@@ -46,8 +46,6 @@ void TagCont::setTag(const std::string & ntag)
 	tag = ntag;
 }
 
-
-
 std::string StartTag::getFriendlyName() const
 {
 	return "parsedStartTag";

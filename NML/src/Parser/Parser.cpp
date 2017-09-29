@@ -61,7 +61,7 @@ void Easy::Parser::makeTree(Node *n)
 {
 	if (!reporter->isOk())
 	{
-		std::cout << "WarningReporter Reported an error. Can't make the tree in an unhealthy environement." << std::endl;
+		std::cout << "WarningReporter Reported an error earlier. Can't create the tree in an unhealthy environement." << std::endl;
 		return;
 	}
 	std::stack<Node*> parents;

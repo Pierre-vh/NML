@@ -12,10 +12,11 @@ int main(int argc, const char * argv[])
 		std::cout << ">The operation was a success." << std::endl;
 		std::cout  << source->compileToStr() << std::endl;
 		// This will thrown an error ! (Node does not exists)
-		NMLNode *n = source->getChild("OPDIV")->getChild(LEFT)->getChild("ERROR!!!!!");
-		if (!n)
+		/*NMLNode *n = source->getChild("OPDIV")->getChild(LEFT)->getChild("ERROR!!!!!");
+		if (!n) // Checks if an nmlnode is valid and isn't the source of an error. The search wasn't successful, so the NMLNode is normally the last node found. (So, getChild("error") has no impact here, except throwing a warning)
 			std::cout << "Error while attempting to find a node!" << std::endl;
 		// This will not !
+		*/
 		auto node = source->getChild("OPDIV")->getChild(LEFT)->getChild(LEFT);
 		node->setAttr("NewAttribute",Easy::Data());
 		node->setName("NewName");
