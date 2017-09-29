@@ -35,24 +35,11 @@ void Lexer::flush()
 	}
 }
 
-bool Lexer::sanityCheck()
+bool Lexer::isEOF(const size_t &cur)
 {
-	if (inChar && inStr)
-	{
-		BASE_ERROR(reporter, Easy::GENERIC_ERROR, "InChar and InStr were both active at the same time.");
-	}
-	return false;
-}
-
-bool Lexer::isEOF(size_t cur,bool &state)
-{
-	if (cur == data.size()) {
+	if (cur >= data.size()) {
 		if (inChar || inStr) // Checks for unclosed delimited variables
-		{
 			BASE_ERROR(reporter,Easy::LEXING_ERROR_DELIMITOR,"");
-			state = false;
-		}
-		state = true;
 		return true;
 	}
 	return false;
@@ -61,24 +48,18 @@ bool Lexer::isEOF(size_t cur,bool &state)
 
 void Lexer::manageDelimiters(const char & c)
 {
-	if (c == cdel && !inStr)
-		inChar != inChar;
-	else if (c == sdel && !inChar)
-		inStr != inStr;
+	if (c == cdel)
+		inChar = !inChar;
+	else if (c == sdel)
+		inStr != !inStr;
 }
 
 
 bool Lexer::eat(size_t pos)
 {
-	// Sanity check. Should never be triggered.
-	if (sanityCheck())
-		return false;
 	// Checking for EOF
-	bool state;
-	if (isEOF(pos,state))
-	{
-		return state; // Lexing succeeds otherwise.
-	}
+	if (isEOF(pos))
+		return true; // Lexing succeeds otherwise.
 	// lexing process
 	// Easy access for the current char
 	char c = data[pos];
@@ -89,8 +70,6 @@ bool Lexer::eat(size_t pos)
 			{ curpos.column = 0; curpos.line += 1; }
 		else 
 			curpos.column += 1;
-
-
 	}
 	lastpos = pos;
 

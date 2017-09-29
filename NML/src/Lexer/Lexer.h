@@ -180,8 +180,7 @@ namespace Easy
 		bool eat(size_t pos);
 		void flush(); // Pushes the current token on the array and resets curtok
 		// utility
-		bool sanityCheck(); // This function checks for the health of the algorithm and if it's not in a invalid state.
-		bool isEOF(size_t cur, bool &state);
+		bool isEOF(const size_t &cur);
 		void manageDelimiters(const char &c); // Flips a bool if the current char is a char/str delimiter
 		inline bool isSep(const char &x) const;
 		inline bool isDelimiter(const char &c) const;
