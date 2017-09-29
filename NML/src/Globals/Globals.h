@@ -3,4 +3,4 @@
 #include "../Errors/error.h"
 #include <memory>
 
-extern std::shared_ptr<Easy::error> reporter;
+extern std::unique_ptr<Easy::error> reporter;
