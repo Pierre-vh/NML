@@ -29,11 +29,9 @@ namespace Easy
 		NMLNode(const std::string &nodename, const std::map<std::string, std::string> &nodeattrs, bool orphan = false);
 		~NMLNode();
 
-		// in the makeASt function that we'll do later in the parser, no need to return anything, just take a pointer to the main node as argument.   
 		Node* makeChild(const std::string &tag, const std::string &name, std::map<std::string, std::string> attrs, bool orphan);
 
-		// Navigate through the AST
-		std::vector<NMLNode*> searchChild(const std::string &n); // returns all the childs with the name specified
+		// Edit some properties of the node
 
 		void setName(const std::string &str);
 		std::string getName();
@@ -41,19 +39,21 @@ namespace Easy
 		Easy::Data* getAttr(const std::string &str);
 		void setAttr(const std::string &str, const Easy::Data &d);
 
+		// Navigate through the AST
+
 		NMLNode* getChild(const dir &d);
 		NMLNode* getChild(const std::string & npos); // Returns the first child with the name specified
 		NMLNode* getChild(const unsigned int &s);
+		std::vector<NMLNode*> searchChild(const std::string &n); // returns all the childs with the name specified
 
 
 		std::string compileToStr(const int &tab = -1); // This will compile the ast
-		void presentYourself();
 
 		operator bool(); // This check the 'health' of the node. For instance, if you performed a search and no result were found, this will return false.
 	private:
 		void throwWarning(const std::string &s);
 		bool badFlag = false;
-		// The NML Default AST suppors : An array of childs without tags and a left/right child.
+		// The NML Default AST supports : An array of children without tags and a left/right child.
 		std::string name = "";
 		std::map<std::string, Easy::Data> attrs; // Attributes are converted to C++ types, stored in Easy::Data.
 

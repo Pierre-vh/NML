@@ -182,31 +182,6 @@ std::string NMLNode::compileToStr(const int & tab)
 	return ss.str();
 }
 
-void NMLNode::presentYourself()
-{
-	std::cout << "[NMLNode]:" << name << " with Attributes : " << std::endl;
-	for (auto i = attrs.begin(); i != attrs.end(); i++)
-	{
-		std::cout << "[" << i->first << "=" << i->second.asString() << " (type :"  << i->second.getTypeAsStr() << ")]" << std::endl;
-	}
-	if (left)
-	{
-		std::cout << "\t"<< name << "'s LEFT CHILD:" << std::endl;
-		left->presentYourself();
-	}
-	if (right)
-	{
-		std::cout << "\t" << name << "'s RIGHT CHILD:" << std::endl;
-		right->presentYourself();
-	}
-	for (auto i = childs.begin(); i != childs.end(); i++)
-	{
-		std::cout << name << "'s other child : " << std::endl;
-		(*i)->presentYourself();
-	}
-	
-}
-
 Easy::NMLNode::operator bool()
 {
 	return badFlag;
