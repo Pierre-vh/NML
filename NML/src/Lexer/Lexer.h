@@ -36,18 +36,6 @@ namespace Easy
 		err,			// used as a default when errors occured. Should never be used in 
 		unknown
 	};
-	namespace Token		// Using a namespace here, because it was already defined before and we need another, more specific definition here for the token
-	{
-		enum tokendatatype // The type of a token_data
-		{
-			BOOLEAN,// Booleans
-			STRING,	// str
-			CHAR,	// chars
-			FLOAT,	// floating-point numbers
-			INT,	// numbers
-			NULLKW, // null 
-		};
-	}
 	struct token // holds the data.
 	{
 		token() {}
@@ -177,7 +165,7 @@ namespace Easy
 
 	private:
 		// func
-		bool eat(size_t pos);
+		bool eat(const size_t &pos);
 		void flush(); // Pushes the current token on the array and resets curtok
 		// utility
 		bool isEOF(const size_t &cur);
@@ -195,9 +183,7 @@ namespace Easy
 		char cdel = '\'', sdel = '"';
 
 		// Variable used by the lexing process to keep track of stuff
-		bool inStr = false;
-		bool inChar = false;
-		bool comment = false;
+		bool inStr = false,inChar = false,comment = false;
 
 		info curpos;
 		size_t lastpos = 0;

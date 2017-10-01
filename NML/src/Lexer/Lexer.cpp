@@ -55,7 +55,7 @@ void Lexer::manageDelimiters(const char & c)
 }
 
 
-bool Lexer::eat(size_t pos)
+bool Lexer::eat(const size_t &pos)
 {
 	// Checking for EOF
 	if (isEOF(pos))
