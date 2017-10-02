@@ -88,7 +88,7 @@ bool Lexer::eat(const size_t &pos)
 		}
 		else if ((data[pos - 1] == '\\')) // the character is escaped.
 		{
-			if (curtok.back() == '\\') curtok.pop_back(); // We don't need the inverted slash in the string as it's an escaped character.
+			if (curtok.back() == '\\') curtok.pop_back(); // We don't need the inverted slash in the string as it's an escape character.
 			curtok += c;
 			return eat(pos + 1);
 		}
