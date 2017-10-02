@@ -8,7 +8,6 @@ Lexer::Lexer()
 {
 }
 
-
 Lexer::~Lexer()
 {
 }

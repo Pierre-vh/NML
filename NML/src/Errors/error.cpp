@@ -2,9 +2,7 @@
 
 using namespace Easy;
 
-error::error()
-{
-}
+error::error(){}
 
 void error::setStream(std::ostream * s)
 {
@@ -60,9 +58,7 @@ bool Easy::error::isOk() const
 {
 	return !errOcc;
 }
-error::~error()
-{
-}
+error::~error(){}
 
 void Easy::error::triggerError()
 {

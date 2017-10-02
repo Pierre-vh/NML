@@ -154,6 +154,7 @@ DataTypes Data::setDataFromString(const std::string & str)
 
 }
 
+
 std::string Data::asString() const
 {	
 	std::stringstream s;

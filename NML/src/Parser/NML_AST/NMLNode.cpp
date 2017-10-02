@@ -67,10 +67,9 @@ NMLNode * NMLNode::getChild(const std::string & npos) // Get childs by name
 	NML_RETURN_IF_ERROR
 
 	for (auto x = childs.begin(); x != childs.end(); x++)
-	{
 		if ((*x)->getName() == npos)
 			return (*x).get();
-	}
+
 	throwWarning("Tried to find child \"" + npos + "\". It does not exists.");
 	return nullptr;
 }
@@ -97,10 +96,9 @@ std::vector<NMLNode*> NMLNode::searchChild(const std::string & n)
 
 	std::vector<NMLNode*> results;
 	for (auto x = childs.begin(); x != childs.end(); x++)
-	{
 		if ((*x)->getName() == n)
 			results.push_back((*x).get());
-	}
+
 	if (left->getName() == n)
 		results.push_back(left.get());
 	else if (right->getName() == n)
@@ -143,9 +141,8 @@ void NMLNode::setAttr(const std::string & str, const Easy::Data & d)
 std::string NMLNode::compileToStr(const int & tab)
 {
 	if (!reporter->isOk()) // If there was a failure somewhere, it's too risky to try and access the (probably) incomplete tree.
-	{
 		reporter->reportWarning("[IMPORTANT] An error has been reported earlier. Can't compile the tree in a unhealthy environment");
-	}
+
 	std::stringstream ss;
 	if (name != ROOTNODE)
 	{
@@ -172,12 +169,8 @@ std::string NMLNode::compileToStr(const int & tab)
 		}
 	}
 	else // if this is the root node, we should only compile childs
-	{
 		for (auto k = childs.begin(); k != childs.end(); k++)
-		{
 			ss << (*k)->compileToStr(tab+1);
-		}
-	}
 
 	return ss.str();
 }
