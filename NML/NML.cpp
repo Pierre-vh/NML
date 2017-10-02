@@ -1,34 +1,25 @@
 #include "NML.h"
 
+NML::NML(){}
 
-
-NML::NML()
-{
-}
-
-
-NML::~NML()
-{
-}
+NML::~NML(){}
 
 NMLNode * NML::parseFile(const std::string & filepath)
 {
 	std::fstream t;
 	std::string filename = "C:\\Users\\pierre.vanhoutryve\\OneDrive\\Projets Programmation\\Projets\\DataContainer\\Debug\\progfile\\basic.txt";
 	t.open(filename);
+
 	if (params.describeProcess)
-	{
 		showTitle("Opening file..");
-	}
+
 	if (t.is_open())
 	{
 		if(params.describeProcess)
 			std::cout << "File \"" << filename << "\"opened Successfully." << std::endl;
 	}
-	else
-	{
-		BASE_ERROR(reporter, Easy::CANT_OPEN_FILE, "File :" + filepath);
-	}
+	else BASE_ERROR(reporter, Easy::CANT_OPEN_FILE, "File :" + filepath);
+
 	std::string str((std::istreambuf_iterator<char>(t)),
 		std::istreambuf_iterator<char>());
 
@@ -56,9 +47,7 @@ NMLNode * NML::parseString(const std::string & str)
 		std::cout << "Number of token found : " << toks.size() << ", The original string was made of " << str.size() << " characters." << std::endl;
 	if (params.showTokens)
 		for (auto it = toks.begin(); it != toks.end(); it++)
-		{
 			std::cout << "Token found : " << (*it).str << " of type " << it->getTypeAsString() << std::endl;
-		}
 
 	Parser p;
 	if (params.describeProcess)

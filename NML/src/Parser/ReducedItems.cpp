@@ -60,9 +60,8 @@ std::string StartTag::reconstructOriginal() const
 		
 	original += "<" + str + " ";
 	for (auto i = attrs.begin(); i != attrs.end(); i++)
-	{
 		original += i->first + "=" + i->second + " ";
-	}
+
 	original += ">";
 	return original;
 }
@@ -80,19 +79,17 @@ std::string OrphanTag::reconstructOriginal() const
 		original += "[" + tag + "]";
 
 	original += "<" + str + " ";
+
 	for (auto i = attrs.begin(); i != attrs.end(); i++)
-	{
 		original += i->first + "=" + i->second + " ";
-	}
+
 	original += "/>";
 	return original;
 }
 
 
 
-EndTag::EndTag(const std::string & tstr) : str(tstr)
-{
-}
+EndTag::EndTag(const std::string & tstr) : str(tstr){}
 
 std::string EndTag::getFriendlyName() const
 {

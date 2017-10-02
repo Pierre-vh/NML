@@ -101,13 +101,9 @@ void Easy::Parser::makeTree(Node *n)
 					BASE_ERROR(reporter, Easy::PARSING_ERROR,str);
 				}
 			}
-			else
-				BASE_ERROR(reporter, Easy::PARSING_ERROR, "Attempted to close a tag when there was no tags open.");
+			else BASE_ERROR(reporter, Easy::PARSING_ERROR, "Attempted to close a tag when there was no tags open.");
 		}
-		else
-		{
-			BASE_ERROR(reporter, Easy::PARSING_ERROR, "Encountered an unknown type");
-		}
+		else BASE_ERROR(reporter, Easy::PARSING_ERROR, "Encountered an unknown type");
 	}
 }
 
