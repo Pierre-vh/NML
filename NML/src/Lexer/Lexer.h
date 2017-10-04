@@ -162,7 +162,12 @@ namespace Easy
 
 		std::list<token> lex(const std::string &file);
 
-
+		struct {				// Some stats about the file.
+			int tabs;			// Number of tabulations
+			int nl;				// Number of new lines
+			int clength;		// Length of the file (in char)
+			int tokensfound;	// Number of tokens found
+		} stats;
 	private:
 		// func
 		bool eat(const size_t &pos);
@@ -184,6 +189,7 @@ namespace Easy
 
 		// Variable used by the lexing process to keep track of stuff
 		bool inStr = false,inChar = false,comment = false;
+		
 
 		info curpos;
 		size_t lastpos = 0;

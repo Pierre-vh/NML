@@ -43,8 +43,14 @@ NMLNode * NML::parseString(const std::string & str)
 
 	RETURN_IF_ERROR
 
-	if (params.describeProcess)
-		std::cout << "Number of token found : " << toks.size() << ", The original string was made of " << str.size() << " characters." << std::endl;
+		if (params.showFileStats)
+		{
+			std::cout << "Some stats about the original string : " << std::endl;
+			std::cout << "-> It was " << lex.stats.clength << " characters in length." << std::endl;
+			std::cout << "-> While lexing,we found : " << std::endl;
+			std::cout << "\t->" << lex.stats.tokensfound << " tokens." << std::endl;
+			std::cout << "\t->" << lex.stats.nl << " New lines (\\n) and " << lex.stats.tabs << " tabs (\\t)." << std::endl;
+		}
 	if (params.showTokens)
 		for (auto it = toks.begin(); it != toks.end(); it++)
 			std::cout << "Token found : " << (*it).str << " of type " << it->getTypeAsString() << std::endl;

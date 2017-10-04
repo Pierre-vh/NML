@@ -36,6 +36,7 @@ class NML
 				bool describeProcess = false;
 				bool showTokens = false;
 				bool showParsingTable = false;
+				bool showFileStats = false;
 			} params;
 	private:
 

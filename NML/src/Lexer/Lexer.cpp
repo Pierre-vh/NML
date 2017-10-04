@@ -17,6 +17,10 @@ std::list<token> Lexer::lex(const std::string & file)
 	data = file;
 	if (!eat(0))
 		BASE_ERROR(reporter, Easy::LEXING_FAILED, "");
+
+	stats.clength = file.length();
+	stats.tokensfound = tokens.size();
+
 	return tokens;
 }
 
@@ -74,6 +78,9 @@ bool Lexer::eat(const size_t &pos)
 
 	// isspace
 	bool space = std::isspace(c,loc);
+	stats.tabs += (c == '\t') ? 1 : 0;
+	stats.nl += (c == '\n') ? 1 : 0;
+
 	// If we're inside a char or a string, just blindly add to the curtok and go on.
 	/////////
 	// CHAR AND STR DELIMITERS
