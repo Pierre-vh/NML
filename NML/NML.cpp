@@ -58,7 +58,6 @@ NMLNode * NML::parseString(const std::string & str)
 		showTitle("Parsing.. (Syntaxic Analysis)");
 	if (params.showParsingTable)
 		p.printParsingTable();
-
 	if (params.describeProcess)
 		std::cout << std::endl << "Parsing..." << std::endl;
 

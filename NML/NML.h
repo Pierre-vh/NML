@@ -37,6 +37,7 @@ class NML
 				bool showTokens = false;
 				bool showParsingTable = false;
 				bool showFileStats = false;
+				bool showReducedTerms = false;
 			} params;
 	private:
 

@@ -44,7 +44,6 @@ namespace Easy
 		short goto_state;				// The state to go to when the function has been ran
 	};
 
-
 	class Parser
 	{
 		public:
@@ -55,10 +54,11 @@ namespace Easy
 			void makeTree(Node *n); // Makes a tree with n as its source node.
 
 			void printParsingTable() const;
-
-			unsigned short current_state = 0;
+			void printReducedItems() const;
 
 		private:
+			unsigned short current_state = 0;
+
 			std::string getExpEntriesForCurState(std::string sep) const; // sep is a separator for the different entries, like here 'a,b' , is the separator.
 			void manageToken(const token &t); // This function pushes id onto the stack or set the value attribute.
 			// Output
