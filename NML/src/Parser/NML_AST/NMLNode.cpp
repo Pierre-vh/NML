@@ -2,9 +2,7 @@
 
 using namespace Easy;
 
-NMLNode::NMLNode(const std::string & nodename) : name(nodename)
-{
-}
+NMLNode::NMLNode(const std::string & nodename) : name(nodename){}
 
 NMLNode::NMLNode(const std::string &nodename, const std::map<std::string, std::string>&nodeattrs, bool orphan) : name(nodename), isOrphan(orphan)
 {
@@ -16,9 +14,7 @@ NMLNode::NMLNode(const std::string &nodename, const std::map<std::string, std::s
 	}
 }
 
-NMLNode::~NMLNode()
-{
-}
+NMLNode::~NMLNode(){}
 
 Node* NMLNode::makeChild(const std::string &tag, const std::string &name, std::map<std::string, std::string> attrs, bool orphan)
 {

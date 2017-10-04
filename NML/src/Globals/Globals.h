@@ -3,4 +3,7 @@
 #include "../Errors/error.h"
 #include <memory>
 
-extern std::unique_ptr<Easy::error> reporter;
+namespace Easy
+{
+	extern std::unique_ptr<Easy::error> reporter;
+}

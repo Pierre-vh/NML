@@ -17,12 +17,10 @@
 
 #define BAD_GET(x)  EasyError(__FILE__,__LINE__,ERROR::BAD_CAST,x)
 
-
 // Value used for the bool to string conversion
 #define BOOLSTR_TRUE "true"
 #define BOOLSTR_FALSE "false"
 #define NULL_STRING "null" // used when asString is used on a null data.
-
 
 // By default, this class throws error if you attempt to use getData<type>() on a different data type. It can be changed.
 namespace Easy
@@ -89,7 +87,6 @@ namespace Easy
 
 			// ISNULL
 			bool isNull() const;
-
 
 			bool isEmpty() const; // Checks for emptiness
 

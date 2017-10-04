@@ -326,10 +326,7 @@ bool Data::operator!=(const Data & b)
 }
 
 // Destructor
-Data::~Data()
-{
-
-}
+Data::~Data(){}
 
 void Data::badGetErr(const std::string & str) const
 {

@@ -10,7 +10,6 @@
 
 namespace Easy
 {
-
 	typedef enum errtype
 	{
 		ENUM_UNKNOWN_DATA_TYPE = -1,
