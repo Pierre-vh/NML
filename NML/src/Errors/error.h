@@ -24,7 +24,8 @@ namespace Easy
 		CANT_OPEN_FILE,
 		UNEXPECTED_TOKEN,
 		NML_CHILDSEARCH_ERROR,
-		DATA_GET_ERROR
+		DATA_GET_ERROR,
+		PARSER_UNCLOSED_TAG
 	}ERROR;
 
 	class error
@@ -68,7 +69,8 @@ namespace Easy
 				{ CANT_OPEN_FILE					,{ "CANT_OPEN_FILE",					"You tried to open a file, and it wasn't successful. Check your file's path and name."}},
 				{ UNEXPECTED_TOKEN					,{ "UNEXPECTED_TOKEN",					"Details :"}},
 				{ NML_CHILDSEARCH_ERROR				,{ "NML_CHILDSEARCH_ERROR",				"An error occured when attempting to access a node."}},
-				{ DATA_GET_ERROR					,{ "DATA_GET_ERROR",					"Error while attempting to retrieve a value contained in a Easy::Data object."}}
+				{ DATA_GET_ERROR					,{ "DATA_GET_ERROR",					"Error while attempting to retrieve a value contained in a Easy::Data object."}},
+				{ PARSER_UNCLOSED_TAG				,{ "PARSER_UNCLOSED_TAG",				"When the parser finished building the tree, it noticed that some tags were not closed."}}
 			};
 	};
 

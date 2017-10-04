@@ -65,7 +65,10 @@ bool Lexer::eat(const size_t &pos)
 		return true; // Lexing succeeds otherwise.
 	// lexing process
 	// Easy access for the current char
-	char c = data[pos];
+	c = data[pos];
+	// Same for back char
+	next = (pos <= data.size()) ? data[pos + 1] : ' ';
+
 	// Data to keep track of every token's position.
 	if (lastpos != pos) // Check needed to not count the same column twice
 	{
@@ -78,8 +81,22 @@ bool Lexer::eat(const size_t &pos)
 
 	// isspace
 	bool space = std::isspace(c,loc);
+	// stats
 	stats.tabs += (c == '\t') ? 1 : 0;
 	stats.nl += (c == '\n') ? 1 : 0;
+
+	// comment
+	if (comment)
+	{
+		if (c == '\n')
+			comment = false;
+		return eat(pos + 1);
+	}
+	else if (c == '/' && next == '/')
+	{
+		comment = true;
+		return eat(pos + 1);
+	}
 
 	// If we're inside a char or a string, just blindly add to the curtok and go on.
 	/////////

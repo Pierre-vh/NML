@@ -186,6 +186,7 @@ namespace Easy
 		// Variables used to manipulate the lexing process
 		std::string separators = "<>[]/="; // + a space character, treated differently
 		char cdel = '\'', sdel = '"';
+		char c, next; // Chars
 
 		// Variable used by the lexing process to keep track of stuff
 		bool inStr = false,inChar = false,comment = false;

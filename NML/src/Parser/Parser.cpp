@@ -105,6 +105,9 @@ void Easy::Parser::makeTree(Node *n)
 		}
 		else BASE_ERROR(reporter, Easy::PARSING_ERROR, "Encountered an unknown type");
 	}
+
+	if (opentags.size() != 0)
+		BASE_ERROR(reporter, Easy::PARSER_UNCLOSED_TAG, "opentags.top() = " + opentags.top());
 }
 
 std::string Easy::Parser::getExpEntriesForCurState(std::string sep) const
