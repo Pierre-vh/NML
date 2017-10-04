@@ -10,7 +10,7 @@ Parser::~Parser()
 {
 }
 
-PARSEDITEMS_LIST Easy::Parser::parse(const std::list<token>& input)
+void Easy::Parser::parse(const std::list<token>& input)
 {
 	for (auto i = input.begin(); i != input.end(); i++)
 	{
@@ -41,7 +41,7 @@ PARSEDITEMS_LIST Easy::Parser::parse(const std::list<token>& input)
 				}
 				{
 					BASE_ERROR(reporter, Easy::GENERIC_ERROR, "");
-					return PARSEDITEMS_LIST();
+					return;
 				}
 			}
 		}
@@ -52,10 +52,10 @@ PARSEDITEMS_LIST Easy::Parser::parse(const std::list<token>& input)
 			ss << "(line :" << i->pos.line /*<< ",column :" << i->pos.column*/ << ")" << std::endl;
 			ss << "Expected: " << this->getExpEntriesForCurState(", ") << std::endl;
 			BASE_ERROR(reporter, Easy::UNEXPECTED_TOKEN, ss.str());
-			return PARSEDITEMS_LIST(); // stop the parsing here.
+			return; // stop the parsing here.
 		}
 	}
-	return output;
+	return;
 }
 
 void Easy::Parser::makeTree(Node *n)

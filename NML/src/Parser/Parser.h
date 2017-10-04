@@ -51,7 +51,7 @@ namespace Easy
 			Parser();
 			~Parser();
 
-			PARSEDITEMS_LIST parse(const std::list<token> &input);
+			void parse(const std::list<token> &input);
 			void makeTree(Node *n); // Makes a tree with n as its source node.
 
 			void printParsingTable() const;

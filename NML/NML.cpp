@@ -62,7 +62,7 @@ NMLNode * NML::parseString(const std::string & str)
 	if (params.describeProcess)
 		std::cout << std::endl << "Parsing..." << std::endl;
 
-	PARSEDITEMS_LIST parsed = p.parse(toks); // PARSING!
+	p.parse(toks); // PARSING!
 
 	RETURN_IF_ERROR
 
