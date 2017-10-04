@@ -185,8 +185,3 @@ void Easy::Parser::printParsingTable() const
 		std::cout << "[" << key.first << "](" << token::getTypeAsString(key.second) << ") -> " << ((data.first == REDUCE) ? "REDUCE " : "SHIFT ") << data.second << std::endl;
 	}
 }
-
-void Easy::Parser::printReducedItems() const
-{
-
-}
