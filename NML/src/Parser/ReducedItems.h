@@ -4,16 +4,12 @@
 #include "Parser.h"
 #include <vector>
 // This file defines the various structs used to store the reduced data 
-
 namespace Easy
 {
-
-
 	class ParsedItem
 	{
 		public:
 			virtual std::string getFriendlyName() const = 0;
-			virtual std::string reconstructOriginal() const = 0; // Reconstructs the original statement from the data.
 	};
 	class TagCont // StartTag & OrphanTag share a LOT of stuff (They're nearly identical except for the name), so we group them under one class
 	{
@@ -39,7 +35,6 @@ namespace Easy
 		public:
 			using TagCont::TagCont;
 			std::string getFriendlyName() const;
-			std::string reconstructOriginal() const;
 	};
 
 	class OrphanTag : public TagCont, public ParsedItem // the orphan tag is a carbon-copy of the starttag class
@@ -47,7 +42,6 @@ namespace Easy
 		public:
 			using TagCont::TagCont;
 			std::string getFriendlyName() const;
-			std::string reconstructOriginal() const;
 	};
 
 	class EndTag : public ParsedItem
@@ -55,7 +49,6 @@ namespace Easy
 		public:
 			EndTag(const std::string &tstr);
 			std::string getFriendlyName() const;
-			std::string reconstructOriginal() const;
 
 			std::string getName() const;
 			void setName(const std::string &nstr);

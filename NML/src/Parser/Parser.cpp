@@ -176,6 +176,7 @@ void Easy::Parser::parseAttr()
 
 void Easy::Parser::printParsingTable() const
 {
+	std::cout << "Parsing table :" << std::endl << std::endl;
 	for (auto i = action_table.begin(); i != action_table.end(); i++)
 	{
 		AT_KEY key = i->first;

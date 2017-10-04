@@ -51,54 +51,16 @@ std::string StartTag::getFriendlyName() const
 	return "parsedStartTag";
 }
 
-std::string StartTag::reconstructOriginal() const
-{
-	std::string original;
-
-	if (tag != "")
-		original += "[" + tag + "]";
-		
-	original += "<" + str + " ";
-	for (auto i = attrs.begin(); i != attrs.end(); i++)
-		original += i->first + "=" + i->second + " ";
-
-	original += ">";
-	return original;
-}
-
 std::string OrphanTag::getFriendlyName() const
 {
 	return "parsedOrphanTag";
 }
-
-std::string OrphanTag::reconstructOriginal() const
-{
-	std::string original;
-
-	if (tag != "")
-		original += "[" + tag + "]";
-
-	original += "<" + str + " ";
-
-	for (auto i = attrs.begin(); i != attrs.end(); i++)
-		original += i->first + "=" + i->second + " ";
-
-	original += "/>";
-	return original;
-}
-
-
 
 EndTag::EndTag(const std::string & tstr) : str(tstr){}
 
 std::string EndTag::getFriendlyName() const
 {
 	return "parsedTagClose";
-}
-
-std::string EndTag::reconstructOriginal() const
-{
-	return "</" + str + ">";
 }
 
 std::string EndTag::getName() const

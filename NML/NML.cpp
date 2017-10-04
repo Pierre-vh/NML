@@ -13,12 +13,10 @@ NMLNode * NML::parseFile(const std::string & filepath)
 	if (params.describeProcess)
 		showTitle("Opening file..");
 
-	if (t.is_open())
-	{
-		if(params.describeProcess)
-			std::cout << "File \"" << filename << "\"opened Successfully." << std::endl;
-	}
-	else BASE_ERROR(reporter, Easy::CANT_OPEN_FILE, "File :" + filepath);
+	if (t.is_open() && params.describeProcess)
+		std::cout << "File \"" << filename << "\"opened Successfully." << std::endl;
+	else if(!t.is_open())
+		BASE_ERROR(reporter, Easy::CANT_OPEN_FILE, "File :" + filepath);
 
 	std::string str((std::istreambuf_iterator<char>(t)),
 		std::istreambuf_iterator<char>());
@@ -43,14 +41,14 @@ NMLNode * NML::parseString(const std::string & str)
 
 	RETURN_IF_ERROR
 
-		if (params.showFileStats)
-		{
-			std::cout << "Some stats about the original string : " << std::endl;
-			std::cout << "-> It was " << lex.stats.clength << " characters in length." << std::endl;
-			std::cout << "-> While lexing,we found : " << std::endl;
-			std::cout << "\t->" << lex.stats.tokensfound << " tokens." << std::endl;
-			std::cout << "\t->" << lex.stats.nl << " New lines (\\n) and " << lex.stats.tabs << " tabs (\\t)." << std::endl;
-		}
+	if (params.showFileStats)
+	{
+		std::cout << "Some stats about the original string : " << std::endl;
+		std::cout << "-> It was " << lex.stats.clength << " characters in length." << std::endl;
+		std::cout << "-> While lexing,we found : " << std::endl;
+		std::cout << "\t->" << lex.stats.tokensfound << " tokens." << std::endl;
+		std::cout << "\t->" << lex.stats.nl << " New lines (\\n) and " << lex.stats.tabs << " tabs (\\t)." << std::endl;
+	}
 	if (params.showTokens)
 		for (auto it = toks.begin(); it != toks.end(); it++)
 			std::cout << "Token found : " << (*it).str << " of type " << it->getTypeAsString() << std::endl;
@@ -59,10 +57,8 @@ NMLNode * NML::parseString(const std::string & str)
 	if (params.describeProcess)
 		showTitle("Parsing.. (Syntaxic Analysis)");
 	if (params.showParsingTable)
-	{
-		std::cout << "Parsing table :" << std::endl << std::endl;
 		p.printParsingTable();
-	}
+
 	if (params.describeProcess)
 		std::cout << std::endl << "Parsing..." << std::endl;
 
@@ -71,25 +67,8 @@ NMLNode * NML::parseString(const std::string & str)
 	RETURN_IF_ERROR
 
 	if (params.describeProcess)
-		if (!parsed.empty())
-		{
-			showTitle("Parsing Process Completed successfully. Results: ");
+		std::cout << "Parsing completed successfully." << std::endl;
 
-			std::string tab = "";
-			for (auto i = parsed.begin(); i != parsed.end(); i++)
-			{
-				//  This code is purely for formatting purposes.
-				auto sb = std::dynamic_pointer_cast<EndTag>(*i);
-				std::shared_ptr<StartTag> sp;
-				if (sp = std::dynamic_pointer_cast<StartTag>(*i))
-					tab += '\t';
-				//
-				std::cout << ((sp || sb) ? tab : (tab + "\t")) << (*i)->reconstructOriginal() << std::endl;
-				//	Same
-				if (sb)
-					tab.pop_back();
-			}
-		}
 	if (params.describeProcess)
 		showTitle("BUILDING THE AST..");
 

@@ -10,24 +10,24 @@ Contact me : pierre.vanhoutryve@gmail.com
 
 Example of code :
 ```
-<NML version="1.0">				
-	<project name="NMLTEST"/>					
+// Example file
+<NML version=true>	// This is a comment!
+	<project name=' '/>	
 </NML>
-<OPDIV>	
+<OPDIV>
 	[LEFT]
 	<OPADD>
 		[LEFT]
-		<CONST content=true/>
+		<CONST content=3.14/>
 		[RIGHT]
-		<CONST content="foo"/>
-		
+		<CONST content=""/>
 	</OPADD>
 	[RIGHT]
 	<OPMUL>
 		[LEFT]
 		<CONST content=2/>
 		[RIGHT]
-		<CONST content=null/>		
+		<CONST content=3/>	
 	</OPMUL>
 </OPDIV>
 ```
