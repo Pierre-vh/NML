@@ -8,6 +8,7 @@ int main(int argc, const char * argv[])
 	n.params.describeProcess = true;
 	n.params.showTokens = true;
 	n.params.showParsingTable = true;
+	n.params.showFileStats = true;
 	NMLNode *source = n.parseFile("C:\\Users\\pierre.vanhoutryve\\OneDrive\\Projets Programmation\\Projets\\DataContainer\\Debug\\progfile\\basic.txt");
 	if (reporter->isOk()) // Parsing success, we can proceed.
 	{
