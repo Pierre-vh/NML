@@ -3,6 +3,9 @@
 #include "NML.h"
 int main(int argc, const char * argv[])
 {
+	// Print errors to std::cerr 
+	reporter->setStream(&std::cerr);
+
 	// NML class is a class used to parse NML files. You can re-use a lot of its code to build your own class !
 	NML n; // NML Parsing "Assistant"
 	n.params.describeProcess = true;
